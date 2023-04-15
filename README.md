@@ -1,7 +1,7 @@
 # Etheremon
 
 <p align="center">
-  <img src="https://i.imgur.com/3sPJyBy.png" alt="Image" width=30%">
+  <img src="https://i.imgur.com/2d0rC60.png" alt="Image" width=30%">
 </p>
 
 Welcome to the exciting world of Etheremon, the on-chain Pokemon game built on the Ethereum blockchain! In this thrilling adventure, you will explore a 3D world filled with challenging terrains, dangerous monsters, and thrilling encounters that will keep you on your toes.
@@ -9,7 +9,7 @@ Welcome to the exciting world of Etheremon, the on-chain Pokemon game built on t
 What makes Etheremon truly special is the use of cutting-edge machine learning technology to provide players with a unique and engaging gaming experience. The game features an AI opponent that players can battle against, which uses PyTorch to learn actions and provide a more challenging experience over time. With this innovative technology, players can enjoy a game that is both fun and intellectually stimulating. So why not join the adventure today and see what kind of amazing monsters and encounters you can discover while testing your battle skills against an ever-evolving AI opponent!
 
 <p align="center">
-  <img src="https://i.imgur.com/2d0rC60.png" alt="Image" width=50%">
+  <img src="https://i.imgur.com/OXR6laI.png" alt="Image" width=50%">
 </p>
 </br></br>
 
