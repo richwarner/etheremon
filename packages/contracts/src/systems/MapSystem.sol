@@ -79,6 +79,8 @@ contract MapSystem is System {
     bytes32 monster = keccak256(abi.encode(++entropyNonce, player, block.difficulty));
     MonsterType monsterType = MonsterType((uint256(monster) % uint256(type(MonsterType).max)) + 1);
     Monster.set(monster, monsterType);
+    Health.set(monster, 100);
+    Strength.set(monster, 10);
 
     bytes32[] memory monsters = new bytes32[](1);
     monsters[0] = monster;

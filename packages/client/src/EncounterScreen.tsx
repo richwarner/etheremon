@@ -16,17 +16,24 @@ type Props = {
   monsterIds: string[];
 };
 
+
+//Get Attack function from API
 export const EncounterScreen = ({ monsterIds }: Props) => {
   const {
     world,
-    components: { Monster },
-    api: { throwBall, fleeEncounter },
+    components: { Monster, Health, Strength },
+    api: { throwBall, fleeEncounter, attack },
   } = useMUD();
 
   // Just one monster for now
   const monster = monsterIds
     .map((m) => world.entityToIndex.get(m as EntityID))
     .filter(isDefined)[0];
+
+  const monsterHealth = useComponentValue(Health, monster)
+  const monsterStrength = useComponentValue(Strength, monster)
+  console.log("MonsterHealth: ", monsterHealth)
+  console.log("MonsterStrength: ", monsterStrength)
 
   const monsterType =
     monsterTypes[useComponentValue(Monster, monster)?.value as MonsterType];
@@ -61,7 +68,9 @@ export const EncounterScreen = ({ monsterIds }: Props) => {
       )}
     >
       <div className="text-8xl animate-bounce">{monsterType.emoji}</div>
-      <div>A wild {monsterType.name} appears!</div>
+      <div>A wild {monsterType.name} appears 2122!</div>
+      <div>Monster Health: {monsterHealth!.value}</div>
+      <div>Monster Strength: {monsterStrength!.value}</div>
 
       <div className="flex gap-2">
         <button
@@ -98,6 +107,15 @@ export const EncounterScreen = ({ monsterIds }: Props) => {
           }}
         >
           ☄️ Throw
+        </button>
+        <button
+          type="button"
+          className="bg-stone-600 hover:ring rounded-lg px-4 py-2"
+          onClick={async () => {
+           await attack()
+          }}
+        >
+          ☄️ Attack
         </button>
         <button
           type="button"

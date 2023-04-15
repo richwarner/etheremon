@@ -231,6 +231,12 @@ export async function setup() {
     return "miss";
   };
 
+  //Attack function
+  const attack = async () => {
+    const tx = await worldSend("attack", []);
+    await awaitStreamValue(result.txReduced$, (txHash) => txHash === tx.hash)
+  }
+
   const fleeEncounter = async () => {
     const tx = await worldSend("flee", []);
     await awaitStreamValue(result.txReduced$, (txHash) => txHash === tx.hash);
@@ -248,6 +254,7 @@ export async function setup() {
       spawn,
       throwBall,
       fleeEncounter,
+      attack
     },
   };
 }
