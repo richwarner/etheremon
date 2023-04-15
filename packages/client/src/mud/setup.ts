@@ -232,19 +232,19 @@ export async function setup() {
   };
 
   //Attack function
-  const attack = async () => {
-    const tx = await worldSend("attack", []);
+  const attack = async (monsterActionNum: any) => {
+    const tx = await worldSend("attack", [monsterActionNum]);
     await awaitStreamValue(result.txReduced$, (txHash) => txHash === tx.hash);
   };
 
   //Heal function
-  const heal = async () => {
-    const tx = await worldSend("heal", []);
+  const heal = async (monsterActionNum: any) => {
+    const tx = await worldSend("heal", [monsterActionNum]);
     await awaitStreamValue(result.txReduced$, (txHash) => txHash === tx.hash);
   };
 
-  const fleeEncounter = async () => {
-    const tx = await worldSend("flee", []);
+  const fleeEncounter = async (monsterActionNum: any) => {
+    const tx = await worldSend("flee", [monsterActionNum]);
     await awaitStreamValue(result.txReduced$, (txHash) => txHash === tx.hash);
   };
 
