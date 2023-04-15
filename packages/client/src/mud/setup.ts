@@ -1,9 +1,5 @@
 import { setupMUDV2Network } from "@latticexyz/std-client";
-import {
-  createFastTxExecutor,
-  createFaucetService,
-  normalizeEntityID,
-} from "@latticexyz/network";
+import { createFastTxExecutor, createFaucetService, normalizeEntityID } from "@latticexyz/network";
 import { getNetworkConfig } from "./getNetworkConfig";
 import { defineContractComponents } from "./contractComponents";
 import { clientComponents } from "./clientComponents";
@@ -71,9 +67,7 @@ export async function setup() {
   // Create a fast tx executor
   const fastTxExecutor =
     signer?.provider instanceof JsonRpcProvider
-      ? await createFastTxExecutor(
-          signer as Signer & { provider: JsonRpcProvider }
-        )
+      ? await createFastTxExecutor(signer as Signer & { provider: JsonRpcProvider })
       : null;
 
   // TODO: infer this from fastTxExecute signature?
@@ -85,9 +79,7 @@ export async function setup() {
     }
   ) => Promise<ReturnType<C[F]>>;
 
-  function bindFastTxExecute<C extends Contract>(
-    contract: C
-  ): BoundFastTxExecuteFn<C> {
+  function bindFastTxExecute<C extends Contract>(contract: C): BoundFastTxExecuteFn<C> {
     return async function (...args) {
       if (!fastTxExecutor) {
         throw new Error("no signer");
@@ -108,30 +100,21 @@ export async function setup() {
     ...result.components,
     Position: overridableComponent(result.components.Position),
     Player: overridableComponent(result.components.Player),
+    Health: overridableComponent(result.components.Health),
+    Strength: overridableComponent(result.components.Strength),
     ...clientComponents,
   };
 
   const wrapPosition = (x: number, y: number) => {
-    const mapConfig = getComponentValue(
-      components.MapConfig,
-      result.singletonEntity
-    );
+    const mapConfig = getComponentValue(components.MapConfig, result.singletonEntity);
     if (!mapConfig) {
       throw new Error("mapConfig no yet loaded or initialized");
     }
-    return [
-      (x + mapConfig.width) % mapConfig.width,
-      (y + mapConfig.height) % mapConfig.height,
-    ];
+    return [(x + mapConfig.width) % mapConfig.width, (y + mapConfig.height) % mapConfig.height];
   };
 
   const isObstructed = (x: number, y: number) => {
-    return (
-      runQuery([
-        Has(components.Obstruction),
-        HasValue(components.Position, { x, y }),
-      ]).size > 0
-    );
+    return runQuery([Has(components.Obstruction), HasValue(components.Position, { x, y })]).size > 0;
   };
 
   const moveTo = async (x: number, y: number) => {
@@ -145,10 +128,7 @@ export async function setup() {
       return;
     }
 
-    const inEncounter = !!getComponentValue(
-      components.Encounter,
-      result.playerEntity
-    );
+    const inEncounter = !!getComponentValue(components.Encounter, result.playerEntity);
     if (inEncounter) {
       console.warn("cannot move while in encounter");
       return;
@@ -176,10 +156,7 @@ export async function setup() {
       throw new Error("no player");
     }
 
-    const playerPosition = getComponentValue(
-      components.Position,
-      result.playerEntity
-    );
+    const playerPosition = getComponentValue(components.Position, result.playerEntity);
     if (!playerPosition) {
       console.warn("cannot moveBy without a player position, not yet spawned?");
       return;
@@ -193,8 +170,7 @@ export async function setup() {
       throw new Error("no player");
     }
 
-    const canSpawn =
-      getComponentValue(components.Player, result.playerEntity)?.value !== true;
+    const canSpawn = getComponentValue(components.Player, result.playerEntity)?.value !== true;
     if (!canSpawn) {
       throw new Error("already spawned");
     }
@@ -241,11 +217,8 @@ export async function setup() {
 
     const hasCaught = encounter.monsters.some((monsterId) => {
       const monster = world.entityToIndex.get(monsterId as EntityID);
-      const owner =
-        monster && getComponentValue(components.OwnedBy, monster)?.value;
-      return (
-        monster && owner && normalizeEntityID(owner) === world.entities[player]
-      );
+      const owner = monster && getComponentValue(components.OwnedBy, monster)?.value;
+      return monster && owner && normalizeEntityID(owner) === world.entities[player];
     });
     if (hasCaught) {
       return "caught";

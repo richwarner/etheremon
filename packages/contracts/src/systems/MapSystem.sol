@@ -2,6 +2,8 @@
 pragma solidity >=0.8.0;
 import { System } from "@latticexyz/world/src/System.sol";
 import { Position } from "../tables/Position.sol";
+import { Health } from "../tables/Health.sol";
+import { Strength } from "../tables/Strength.sol";
 import { Player } from "../tables/Player.sol";
 import { Encounter } from "../tables/Encounter.sol";
 import { Movable } from "../tables/Movable.sol";
@@ -33,6 +35,8 @@ contract MapSystem is System {
     Position.set(player, x, y);
     Movable.set(player, true);
     Encounterable.set(player, true);
+    Health.set(player, 100);
+    Strength.set(player, 10);
   }
 
   function move(uint32 x, uint32 y) public {

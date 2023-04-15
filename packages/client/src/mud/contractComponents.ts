@@ -10,7 +10,7 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          value: RecsType.Number,
+          value: RecsType.BigInt,
         },
         {
           metadata: {
@@ -25,8 +25,8 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          actionCount: RecsType.Number,
-          monsters: RecsType.StringArray,
+          actionCount: RecsType.BigInt,
+          monsters: RecsType.BigIntArray,
         },
         {
           metadata: {
@@ -57,6 +57,21 @@ export function defineContractComponents(world: World) {
         world,
         {
           value: RecsType.Boolean,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    Health: (() => {
+      const tableId = new TableId("", "Health");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.Number,
         },
         {
           metadata: {
@@ -165,6 +180,21 @@ export function defineContractComponents(world: World) {
         {
           x: RecsType.Number,
           y: RecsType.Number,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    Strength: (() => {
+      const tableId = new TableId("", "Strength");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.Number,
         },
         {
           metadata: {

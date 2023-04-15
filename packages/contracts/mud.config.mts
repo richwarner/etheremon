@@ -20,6 +20,7 @@ export default mudConfig({
     },
     EncounterTrigger: "bool",
     Encounterable: "bool",
+    Health: "uint32",
     MapConfig: {
       primaryKeys: {},
       dataStruct: false,
@@ -41,6 +42,7 @@ export default mudConfig({
         y: "uint32",
       },
     },
+    Strength: "uint32",
   },
   // modules: [
   //   {

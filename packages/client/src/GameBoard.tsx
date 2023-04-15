@@ -6,6 +6,7 @@ import { useMUD } from "./MUDContext";
 import { useMapConfig } from "./useMapConfig";
 import { useKeyboardMovement } from "./useKeyboardMovement";
 import { EncounterScreen } from "./EncounterScreen";
+import { PlayerBar } from "./PlayerBar";
 
 export const GameBoard = () => {
   const { width, height, terrainValues } = useMapConfig();
@@ -46,14 +47,10 @@ export const GameBoard = () => {
     <div className="inline-grid p-2 bg-lime-500 relative overflow-hidden">
       {rows.map((y) =>
         columns.map((x) => {
-          const terrain = terrainValues.find(
-            (t) => t.x === x && t.y === y
-          )?.type;
+          const terrain = terrainValues.find((t) => t.x === x && t.y === y)?.type;
 
           const hasPlayer = playerPosition?.x === x && playerPosition?.y === y;
-          const otherPlayersHere = otherPlayers.filter(
-            (p) => p.position.x === x && p.position.y === y
-          );
+          const otherPlayersHere = otherPlayers.filter((p) => p.position.x === x && p.position.y === y);
 
           return (
             <div
@@ -115,6 +112,8 @@ export const GameBoard = () => {
           <EncounterScreen monsterIds={encounter.monsters} />
         </div>
       ) : null}
+
+      <PlayerBar />
     </div>
   );
 };
