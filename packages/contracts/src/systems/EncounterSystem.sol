@@ -8,6 +8,7 @@ import { Monster } from "../tables/Monster.sol";
 import { Health } from "../tables/Health.sol";
 import { Strength } from "../tables/Strength.sol";
 import { addressToEntityKey } from "../addressToEntityKey.sol";
+import { Event } from "../tables/Event.sol";
 
 contract EncounterSystem is System {
   uint256 internal entropyNonce = 0;
@@ -44,6 +45,9 @@ contract EncounterSystem is System {
   function monsterFlee() public {
     bytes32 player = addressToEntityKey(_msgSender());
     Encounter.deleteRecord(player);
+    (uint256 actionCount, bytes32[] memory monsters) = Encounter.get(player);
+    bytes32 monster = monsters[0];
+    Event.set(monster, "fled!");
   }
 
   function attack(uint32 monsterActionNum) public {
@@ -85,6 +89,7 @@ contract EncounterSystem is System {
     } else {
       Health.set(player, playerHealth - monsterDamage);
     }
+    Event.set(monster, "attacked!");
   }
 
   function heal(uint32 monsterActionNum) public {
@@ -111,6 +116,7 @@ contract EncounterSystem is System {
       newMonsterHealth = 100;
     }
     Health.set(monster, newMonsterHealth);
+    Event.set(monster, "healed!");
   }
 
   function monsterAction(uint32 monsterActionNum) public {
