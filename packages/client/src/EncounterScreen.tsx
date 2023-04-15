@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { toast } from "react-toastify";
-import {
-  EntityID,
-  getComponentValueStrict,
-  Has,
-  HasValue,
-} from "@latticexyz/recs";
+import { EntityID, getComponentValueStrict, Has, HasValue } from "@latticexyz/recs";
 import { useComponentValue, useEntityQuery } from "@latticexyz/react";
 import { useMUD } from "./MUDContext";
 import { MonsterType, monsterTypes } from "./monsterTypes";
@@ -16,27 +11,23 @@ type Props = {
   monsterIds: string[];
 };
 
-
 //Get Attack function from API
 export const EncounterScreen = ({ monsterIds }: Props) => {
   const {
     world,
     components: { Monster, Health, Strength },
-    api: { throwBall, fleeEncounter, attack },
+    api: { throwBall, fleeEncounter, attack, heal },
   } = useMUD();
 
   // Just one monster for now
-  const monster = monsterIds
-    .map((m) => world.entityToIndex.get(m as EntityID))
-    .filter(isDefined)[0];
+  const monster = monsterIds.map((m) => world.entityToIndex.get(m as EntityID)).filter(isDefined)[0];
 
-  const monsterHealth = useComponentValue(Health, monster)
-  const monsterStrength = useComponentValue(Strength, monster)
-  console.log("MonsterHealth: ", monsterHealth)
-  console.log("MonsterStrength: ", monsterStrength)
+  const monsterHealth = useComponentValue(Health, monster);
+  const monsterStrength = useComponentValue(Strength, monster);
+  console.log("MonsterHealth: ", monsterHealth);
+  console.log("MonsterStrength: ", monsterStrength);
 
-  const monsterType =
-    monsterTypes[useComponentValue(Monster, monster)?.value as MonsterType];
+  const monsterType = monsterTypes[useComponentValue(Monster, monster)?.value as MonsterType];
 
   // const monster = useEntityQuery([
   //   HasValue(Encounter, { value: encounterId }),
@@ -112,10 +103,19 @@ export const EncounterScreen = ({ monsterIds }: Props) => {
           type="button"
           className="bg-stone-600 hover:ring rounded-lg px-4 py-2"
           onClick={async () => {
-           await attack()
+            await attack();
           }}
         >
           ☄️ Attack
+        </button>
+        <button
+          type="button"
+          className="bg-stone-600 hover:ring rounded-lg px-4 py-2"
+          onClick={async () => {
+            await heal();
+          }}
+        >
+          ☄️ Heal
         </button>
         <button
           type="button"

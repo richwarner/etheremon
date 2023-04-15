@@ -83,6 +83,13 @@ const _abi = [
     type: "event",
   },
   {
+    inputs: [],
+    name: "attack",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "bytes16",
@@ -321,6 +328,13 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "heal",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "contract IModule",
@@ -361,6 +375,34 @@ const _abi = [
     name: "isStore",
     outputs: [],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "monsterAction",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "monsterAttack",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "monsterFlee",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "monsterHeal",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {

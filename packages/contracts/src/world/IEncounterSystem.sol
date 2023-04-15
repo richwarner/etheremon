@@ -7,4 +7,16 @@ interface IEncounterSystem {
   function throwBall() external;
 
   function flee() external;
+
+  function monsterFlee() external;
+
+  function attack() external;
+
+  function monsterAttack() external;
+
+  function heal() external;
+
+  function monsterHeal() external;
+
+  function monsterAction() external;
 }

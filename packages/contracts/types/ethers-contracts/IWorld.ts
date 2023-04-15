@@ -29,6 +29,7 @@ import type {
 
 export interface IWorldInterface extends utils.Interface {
   functions: {
+    "attack()": FunctionFragment;
     "call(bytes16,bytes16,bytes)": FunctionFragment;
     "deleteRecord(uint256,bytes32[])": FunctionFragment;
     "deleteRecord(bytes16,bytes16,bytes32[])": FunctionFragment;
@@ -40,9 +41,14 @@ export interface IWorldInterface extends utils.Interface {
     "getSchema(uint256)": FunctionFragment;
     "grantAccess(bytes16,address)": FunctionFragment;
     "grantAccess(bytes16,bytes16,address)": FunctionFragment;
+    "heal()": FunctionFragment;
     "installModule(address,bytes)": FunctionFragment;
     "installRootModule(address,bytes)": FunctionFragment;
     "isStore()": FunctionFragment;
+    "monsterAction()": FunctionFragment;
+    "monsterAttack()": FunctionFragment;
+    "monsterFlee()": FunctionFragment;
+    "monsterHeal()": FunctionFragment;
     "move(uint32,uint32)": FunctionFragment;
     "pushToField(uint256,bytes32[],uint8,bytes)": FunctionFragment;
     "pushToField(bytes16,bytes16,bytes32[],uint8,bytes)": FunctionFragment;
@@ -60,6 +66,7 @@ export interface IWorldInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "attack"
       | "call"
       | "deleteRecord(uint256,bytes32[])"
       | "deleteRecord(bytes16,bytes16,bytes32[])"
@@ -71,9 +78,14 @@ export interface IWorldInterface extends utils.Interface {
       | "getSchema"
       | "grantAccess(bytes16,address)"
       | "grantAccess(bytes16,bytes16,address)"
+      | "heal"
       | "installModule"
       | "installRootModule"
       | "isStore"
+      | "monsterAction"
+      | "monsterAttack"
+      | "monsterFlee"
+      | "monsterHeal"
       | "move"
       | "pushToField(uint256,bytes32[],uint8,bytes)"
       | "pushToField(bytes16,bytes16,bytes32[],uint8,bytes)"
@@ -89,6 +101,7 @@ export interface IWorldInterface extends utils.Interface {
       | "throwBall"
   ): FunctionFragment;
 
+  encodeFunctionData(functionFragment: "attack", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "call",
     values: [
@@ -150,6 +163,7 @@ export interface IWorldInterface extends utils.Interface {
       PromiseOrValue<string>
     ]
   ): string;
+  encodeFunctionData(functionFragment: "heal", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "installModule",
     values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
@@ -159,6 +173,22 @@ export interface IWorldInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(functionFragment: "isStore", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "monsterAction",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "monsterAttack",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "monsterFlee",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "monsterHeal",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "move",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
@@ -252,6 +282,7 @@ export interface IWorldInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "throwBall", values?: undefined): string;
 
+  decodeFunctionResult(functionFragment: "attack", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "call", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "deleteRecord(uint256,bytes32[])",
@@ -284,6 +315,7 @@ export interface IWorldInterface extends utils.Interface {
     functionFragment: "grantAccess(bytes16,bytes16,address)",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "heal", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "installModule",
     data: BytesLike
@@ -293,6 +325,22 @@ export interface IWorldInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "isStore", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "monsterAction",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "monsterAttack",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "monsterFlee",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "monsterHeal",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "move", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "pushToField(uint256,bytes32[],uint8,bytes)",
@@ -412,6 +460,10 @@ export interface IWorld extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    attack(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     call(
       namespace: PromiseOrValue<BytesLike>,
       file: PromiseOrValue<BytesLike>,
@@ -479,6 +531,10 @@ export interface IWorld extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    heal(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     installModule(
       module: PromiseOrValue<string>,
       args: PromiseOrValue<BytesLike>,
@@ -492,6 +548,22 @@ export interface IWorld extends BaseContract {
     ): Promise<ContractTransaction>;
 
     isStore(overrides?: CallOverrides): Promise<[void]>;
+
+    monsterAction(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    monsterAttack(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    monsterFlee(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    monsterHeal(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     move(
       x: PromiseOrValue<BigNumberish>,
@@ -586,6 +658,10 @@ export interface IWorld extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
+  attack(
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   call(
     namespace: PromiseOrValue<BytesLike>,
     file: PromiseOrValue<BytesLike>,
@@ -653,6 +729,10 @@ export interface IWorld extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  heal(
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   installModule(
     module: PromiseOrValue<string>,
     args: PromiseOrValue<BytesLike>,
@@ -666,6 +746,22 @@ export interface IWorld extends BaseContract {
   ): Promise<ContractTransaction>;
 
   isStore(overrides?: CallOverrides): Promise<void>;
+
+  monsterAction(
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  monsterAttack(
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  monsterFlee(
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  monsterHeal(
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   move(
     x: PromiseOrValue<BigNumberish>,
@@ -760,6 +856,8 @@ export interface IWorld extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    attack(overrides?: CallOverrides): Promise<void>;
+
     call(
       namespace: PromiseOrValue<BytesLike>,
       file: PromiseOrValue<BytesLike>,
@@ -825,6 +923,8 @@ export interface IWorld extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    heal(overrides?: CallOverrides): Promise<void>;
+
     installModule(
       module: PromiseOrValue<string>,
       args: PromiseOrValue<BytesLike>,
@@ -838,6 +938,14 @@ export interface IWorld extends BaseContract {
     ): Promise<void>;
 
     isStore(overrides?: CallOverrides): Promise<void>;
+
+    monsterAction(overrides?: CallOverrides): Promise<void>;
+
+    monsterAttack(overrides?: CallOverrides): Promise<void>;
+
+    monsterFlee(overrides?: CallOverrides): Promise<void>;
+
+    monsterHeal(overrides?: CallOverrides): Promise<void>;
 
     move(
       x: PromiseOrValue<BigNumberish>,
@@ -963,6 +1071,10 @@ export interface IWorld extends BaseContract {
   };
 
   estimateGas: {
+    attack(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     call(
       namespace: PromiseOrValue<BytesLike>,
       file: PromiseOrValue<BytesLike>,
@@ -1030,6 +1142,10 @@ export interface IWorld extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    heal(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     installModule(
       module: PromiseOrValue<string>,
       args: PromiseOrValue<BytesLike>,
@@ -1043,6 +1159,22 @@ export interface IWorld extends BaseContract {
     ): Promise<BigNumber>;
 
     isStore(overrides?: CallOverrides): Promise<BigNumber>;
+
+    monsterAction(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    monsterAttack(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    monsterFlee(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    monsterHeal(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
     move(
       x: PromiseOrValue<BigNumberish>,
@@ -1138,6 +1270,10 @@ export interface IWorld extends BaseContract {
   };
 
   populateTransaction: {
+    attack(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     call(
       namespace: PromiseOrValue<BytesLike>,
       file: PromiseOrValue<BytesLike>,
@@ -1205,6 +1341,10 @@ export interface IWorld extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    heal(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     installModule(
       module: PromiseOrValue<string>,
       args: PromiseOrValue<BytesLike>,
@@ -1218,6 +1358,22 @@ export interface IWorld extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     isStore(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    monsterAction(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    monsterAttack(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    monsterFlee(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    monsterHeal(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
     move(
       x: PromiseOrValue<BigNumberish>,
