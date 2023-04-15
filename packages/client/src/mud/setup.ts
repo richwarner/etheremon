@@ -234,8 +234,14 @@ export async function setup() {
   //Attack function
   const attack = async () => {
     const tx = await worldSend("attack", []);
-    await awaitStreamValue(result.txReduced$, (txHash) => txHash === tx.hash)
-  }
+    await awaitStreamValue(result.txReduced$, (txHash) => txHash === tx.hash);
+  };
+
+  //Heal function
+  const heal = async () => {
+    const tx = await worldSend("heal", []);
+    await awaitStreamValue(result.txReduced$, (txHash) => txHash === tx.hash);
+  };
 
   const fleeEncounter = async () => {
     const tx = await worldSend("flee", []);
@@ -254,7 +260,8 @@ export async function setup() {
       spawn,
       throwBall,
       fleeEncounter,
-      attack
+      attack,
+      heal,
     },
   };
 }
