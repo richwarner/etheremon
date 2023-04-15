@@ -5,6 +5,8 @@ import { Player } from "../tables/Player.sol";
 import { Encounter } from "../tables/Encounter.sol";
 import { OwnedBy } from "../tables/OwnedBy.sol";
 import { Monster } from "../tables/Monster.sol";
+import { Health} from "../tables/Health.sol";
+import { Strength} from "../tables/Strength.sol";
 import { addressToEntityKey } from "../addressToEntityKey.sol";
 
 contract EncounterSystem is System {
@@ -37,5 +39,16 @@ contract EncounterSystem is System {
   function flee() public {
     bytes32 player = addressToEntityKey(_msgSender());
     Encounter.deleteRecord(player);
+  }
+
+  function attack() public {
+    bytes32 player = addressToEntityKey(_msgSender());
+    (uint256 actionCount, bytes32[] memory monsters) = Encounter.get(player);
+    bytes32 monster = monsters[0];
+
+    uint32 playerDamage = Strength.get(player);
+    uint32 monsterHealth = Health.get(monster);
+
+    Health.set(monster, monsterHealth - playerDamage);
   }
 }
