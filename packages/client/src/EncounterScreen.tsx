@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { toast } from "react-toastify";
-import {
-  EntityID,
-  getComponentValueStrict,
-  Has,
-  HasValue,
-} from "@latticexyz/recs";
+import { EntityID, getComponentValueStrict, Has, HasValue } from "@latticexyz/recs";
 import { useComponentValue, useEntityQuery } from "@latticexyz/react";
 import { useMUD } from "./MUDContext";
 import { MonsterType, monsterTypes } from "./monsterTypes";
@@ -22,7 +17,7 @@ type Props = {
 export const EncounterScreen = ({ monsterIds }: Props) => {
   const {
     world,
-    components: { Monster, Health, Strength Event},
+    components: { Monster, Health, Strength, Event },
     playerEntity,
     api: { throwBall, fleeEncounter, attack, heal },
   } = useMUD();
@@ -32,9 +27,7 @@ export const EncounterScreen = ({ monsterIds }: Props) => {
   const [message, setMessage] = useState("Waiting for monster action...");
 
   // Just one monster for now
-  const monster = monsterIds
-    .map((m) => world.entityToIndex.get(m as EntityID))
-    .filter(isDefined)[0];
+  const monster = monsterIds.map((m) => world.entityToIndex.get(m as EntityID)).filter(isDefined)[0];
 
   const monsterHealth = useComponentValue(Health, monster);
   const monsterStrength = useComponentValue(Strength, monster);
@@ -47,8 +40,7 @@ export const EncounterScreen = ({ monsterIds }: Props) => {
   console.log("PlayerHealth: ", playerHealth);
   console.log("PlayerStrength: ", playerStrength);
 
-  const monsterType =
-    monsterTypes[useComponentValue(Monster, monster)?.value as MonsterType];
+  const monsterType = monsterTypes[useComponentValue(Monster, monster)?.value as MonsterType];
 
   // const monster = useEntityQuery([
   //   HasValue(Encounter, { value: encounterId }),
@@ -76,12 +68,36 @@ export const EncounterScreen = ({ monsterIds }: Props) => {
         heal(monsterActionNum);
         break;
       case 3:
-        fleeEncounter(monsterActionNum);
+        fleeEncounter();
         break;
       default:
         console.log("Invalid action");
     }
   };
+
+  function weightedRandomResult(initialResult: number) {
+    const baseWeights = [
+      [0.6, 0.3, 0.1],
+      [0.2, 0.5, 0.3],
+      [0.1, 0.3, 0.6],
+    ];
+
+    const weights = baseWeights[initialResult - 1];
+    const totalWeight = weights.reduce((a, b) => a + b, 0);
+    const randomNum = Math.random() * totalWeight;
+
+    let weightSum = 0;
+    for (let i = 0; i < weights.length; i++) {
+      weightSum += weights[i];
+      if (randomNum <= weightSum) {
+        return i + 1;
+      }
+    }
+
+    // This should not be reached if weights are properly defined
+    console.error("Invalid weight configuration");
+    return -1;
+  }
 
   const getMonsterAction = async () => {
     // Execute  Forward request
@@ -115,9 +131,10 @@ export const EncounterScreen = ({ monsterIds }: Props) => {
     } catch (error) {
       console.error("Server error: ", error);
     }
+
     console.log("Server Forward response :", forwardOutput);
     console.log("Server Forward action :", action);
-    return action;
+    return weightedRandomResult(action);
   };
 
   const [appear, setAppear] = useState(false);
@@ -138,15 +155,11 @@ export const EncounterScreen = ({ monsterIds }: Props) => {
           <div>
             <p className="text-center">Monster:</p>
             <div className="w-40 px-4 h-8 bg-red-600 rounded-lg mb-4 flex flex-row items-center justify-center">
-              <div className="text-center text-white">
-                {monsterHealth!.value} HP
-              </div>
+              <div className="text-center text-white">{monsterHealth!.value} HP</div>
             </div>
 
             <div className="w-40 h-8 bg-green-600 rounded-lg mb-4 flex flex-row items-center justify-center">
-              <div className="text-center text-white">
-                {monsterStrength!.value} STR
-              </div>
+              <div className="text-center text-white">{monsterStrength!.value} STR</div>
             </div>
           </div>
         </div>
