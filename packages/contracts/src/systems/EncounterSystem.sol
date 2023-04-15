@@ -50,7 +50,7 @@ contract EncounterSystem is System {
     Event.set(monster, "fled!");
   }
 
-  function attack() public {
+  function attack(uint32 monsterActionNum) public {
     bytes32 player = addressToEntityKey(_msgSender());
     (uint256 actionCount, bytes32[] memory monsters) = Encounter.get(player);
     bytes32 monster = monsters[0];
@@ -67,7 +67,7 @@ contract EncounterSystem is System {
       Strength.set(player, playerDamage + 1);
     } else {
       Health.set(monster, monsterHealth - playerDamage);
-      monsterAction();
+      monsterAction(monsterActionNum);
     }
 
     Health.set(monster, monsterHealth - playerDamage);
@@ -92,7 +92,7 @@ contract EncounterSystem is System {
     Event.set(monster, "attacked!");
   }
 
-  function heal() public {
+  function heal(uint32 monsterActionNum) public {
     bytes32 player = addressToEntityKey(_msgSender());
     (uint256 actionCount, bytes32[] memory monsters) = Encounter.get(player);
 
@@ -102,7 +102,7 @@ contract EncounterSystem is System {
       newPlayerHealth = 100;
     }
     Health.set(player, newPlayerHealth);
-    monsterAction();
+    monsterAction(monsterActionNum);
   }
 
   function monsterHeal() public {
@@ -119,15 +119,15 @@ contract EncounterSystem is System {
     Event.set(monster, "healed!");
   }
 
-  function monsterAction() public {
+  function monsterAction(uint32 monsterActionNum) public {
     bytes32 player = addressToEntityKey(_msgSender());
     (uint256 actionCount, bytes32[] memory monsters) = Encounter.get(player);
     bytes32 monster = monsters[0];
     uint256 rand = uint256(keccak256(abi.encode(player, monster, actionCount, block.difficulty, entropyNonce++)));
-    if (rand % 3 == 0) {
-      monsterHeal();
-    } else if (rand % 2 == 0) {
+    if (monsterActionNum == 3) {
       monsterAttack();
+    } else if (monsterActionNum == 2) {
+      monsterHeal();
     } else {
       monsterFlee();
     }
