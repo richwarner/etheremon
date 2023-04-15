@@ -21,14 +21,17 @@ export function PlayerBar() {
   if (!playerStrength) return <></>;
 
   return (
-    <div className="absolute bottom-0 left-0 h-[150px] w-screen bg-slate-400/40 flex flex-row items-center justify-center p-8 rounded-lg">
+    <div className="h-[150px] flex flex-row items-center justify-center p-8 rounded-lg">
       <div>
+        <p className="text-center">Player:</p>
         <div className="w-40 px-4 h-8 bg-red-600 rounded-lg mb-4 flex flex-row items-center justify-center">
           <div className="text-center text-white">{playerHealth.value} HP</div>
         </div>
 
         <div className="w-40 h-8 bg-green-600 rounded-lg mb-4 flex flex-row items-center justify-center">
-          <div className="text-center text-white">{playerStrength.value} STR</div>
+          <div className="text-center text-white">
+            {playerStrength.value} STR
+          </div>
         </div>
       </div>
     </div>

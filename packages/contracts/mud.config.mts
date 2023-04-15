@@ -31,6 +31,7 @@ export default mudConfig({
       },
     },
     Monster: "MonsterType",
+    Event: "string",
     Movable: "bool",
     Obstruction: "bool",
     OwnedBy: "bytes32",
