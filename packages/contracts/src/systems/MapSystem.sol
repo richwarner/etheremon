@@ -12,6 +12,7 @@ import { Encounterable } from "../tables/Encounterable.sol";
 import { EncounterTrigger } from "../tables/EncounterTrigger.sol";
 import { MapConfig } from "../tables/MapConfig.sol";
 import { Monster } from "../tables/Monster.sol";
+import { Event } from "../tables/Event.sol";
 import { MonsterType } from "../Types.sol";
 import { addressToEntityKey } from "../addressToEntityKey.sol";
 import { positionToEntityKey } from "../positionToEntityKey.sol";
@@ -80,6 +81,7 @@ contract MapSystem is System {
     MonsterType monsterType = MonsterType((uint256(monster) % uint256(type(MonsterType).max)) + 1);
     Monster.set(monster, monsterType);
     Health.set(monster, 100);
+    Event.set(monster, "appeared");
     Strength.set(monster, 10);
 
     bytes32[] memory monsters = new bytes32[](1);
